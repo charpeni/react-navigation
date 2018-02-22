@@ -3,6 +3,7 @@ import { Platform, StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 
 import SceneView from './SceneView';
+import NavigationActions from '../NavigationActions';
 
 const FAR_FAR_AWAY = 3000; // this should be big enough to move the whole view out of its container
 
@@ -66,13 +67,13 @@ export default class ResourceSavingSceneView extends React.PureComponent {
   }
 
   _mustAlwaysBeVisible = () => {
-    return this.props.animationEnabled || this.props.swipeEnabled;
+    return this.props.swipeEnabled;
   };
 
   _onAction = payload => {
     // We do not care about transition complete events, they won't actually change the state
     if (
-      payload.action.type == 'Navigation/COMPLETE_TRANSITION' ||
+      payload.action.type == NavigationActions.COMPLETE_TRANSITION ||
       !payload.state
     ) {
       return;
