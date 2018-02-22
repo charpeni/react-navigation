@@ -9,6 +9,8 @@ const REPLACE = 'Navigation/REPLACE';
 const SET_PARAMS = 'Navigation/SET_PARAMS';
 const URI = 'Navigation/URI';
 const COMPLETE_TRANSITION = 'Navigation/COMPLETE_TRANSITION';
+const SWIPE_START = 'Navigation/SWIPE_START';
+const SWIPE_END = 'Navigation/SWIPE_END';
 
 const createAction = (type, fn) => {
   fn.toString = () => type;
@@ -106,6 +108,16 @@ const completeTransition = createAction(COMPLETE_TRANSITION, payload => ({
   key: payload && payload.key,
 }));
 
+const swipeStart = createAction(SWIPE_START, payload => ({
+  type: SWIPE_START,
+  index: payload && payload.index,
+}));
+
+const swipeEnd = createAction(SWIPE_END, payload => ({
+  type: SWIPE_END,
+  index: payload && payload.index,
+}));
+
 const mapDeprecatedNavigateAction = action => {
   if (action.type === 'Navigate') {
     const payload = {
@@ -172,6 +184,8 @@ export default {
   SET_PARAMS,
   URI,
   COMPLETE_TRANSITION,
+  SWIPE_START,
+  SWIPE_END,
 
   // Action creators
   back,
@@ -185,6 +199,8 @@ export default {
   setParams,
   uri,
   completeTransition,
+  swipeStart,
+  swipeEnd,
 
   // TODO: Remove once old actions are deprecated
   mapDeprecatedActionAndWarn,

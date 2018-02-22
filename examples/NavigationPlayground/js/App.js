@@ -32,6 +32,7 @@ import StackWithHeaderPreset from './StackWithHeaderPreset';
 import SimpleTabs from './SimpleTabs';
 import TabAnimations from './TabAnimations';
 import TabsWithNavigationFocus from './TabsWithNavigationFocus';
+import LazyTabs from './LazyTabs';
 
 const ExampleInfo = {
   SimpleStack: {
@@ -104,6 +105,10 @@ const ExampleInfo = {
   //   name: 'withNavigationFocus',
   //   description: 'Receive the focus prop to know when a screen is focused',
   // },
+  LazyTabs: {
+    name: 'Lazy Tabs',
+    description: 'Lazy and animated tabs with various configurations',
+  },
 };
 
 const ExampleRoutes = {
@@ -131,6 +136,7 @@ const ExampleRoutes = {
   },
   TabAnimations: TabAnimations,
   // TabsWithNavigationFocus: TabsWithNavigationFocus,
+  LazyTabs: LazyTabs,
 };
 
 type State = {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Platform } from 'react-native';
+import { View, StyleSheet, Platform, InteractionManager } from 'react-native';
 import { TabViewAnimated, TabViewPagerPan } from 'react-native-tab-view';
 import SafeAreaView from 'react-native-safe-area-view';
 
@@ -31,6 +31,8 @@ class TabView extends React.PureComponent {
     return (
       <ResourceSavingSceneView
         lazy={this.props.lazy}
+        lazyOnSwipe={this.props.lazyOnSwipe}
+        alwaysVisible={this.props.alwaysVisible}
         removeClippedSubViews={this.props.removeClippedSubviews}
         animationEnabled={this.props.animationEnabled}
         swipeEnabled={this.props.swipeEnabled}
@@ -79,6 +81,18 @@ class TabView extends React.PureComponent {
     return typeof options.tabBarTestIDProps === 'function'
       ? options.tabBarTestIDProps({ focused })
       : options.tabBarTestIDProps;
+  };
+
+  _onSwipeStart = () => {
+    const { state, dispatch } = this.props.navigation;
+    dispatch(NavigationActions.swipeStart({ index: state.index }));
+  };
+
+  _onSwipeEnd = () => {
+    InteractionManager.runAfterInteractions(() => {
+      const { state, dispatch } = this.props.navigation;
+      dispatch(NavigationActions.swipeEnd({ index: state.index }));
+    });
   };
 
   _renderIcon = ({ focused, route, tintColor }) => {
@@ -183,6 +197,8 @@ class TabView extends React.PureComponent {
       navigationState: this.props.navigation.state,
       screenProps: this.props.screenProps,
       style: styles.container,
+      onSwipeStart: this._onSwipeStart,
+      onSwipeEnd: this._onSwipeEnd,
     };
 
     return <TabViewAnimated {...props} />;
