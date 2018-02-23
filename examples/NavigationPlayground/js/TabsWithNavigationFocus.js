@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { SafeAreaView, Text } from 'react-native';
+import { SafeAreaView, Text, View } from 'react-native';
 import { TabNavigator, withNavigationFocus } from 'react-navigation';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -15,14 +15,23 @@ const createTabScreen = (name, icon, focusedIcon, tintColor = '#673ab7') => {
       forceInset={{ horizontal: 'always', top: 'always' }}
       style={{
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
       }}
     >
-      <Text style={{ fontWeight: '700', fontSize: 16, marginBottom: 5 }}>
-        {'Tab ' + name.toLowerCase()}
-      </Text>
-      <Text>{'props.isFocused: ' + (isFocused ? ' true' : 'false')}</Text>
+      {name === 'One' ? (
+        <View style={{ flex: 1, backgroundColor: 'red' }} />
+      ) : null}
+      {name === 'Two' ? (
+        <View style={{ flex: 1, backgroundColor: 'yellow' }} />
+      ) : null}
+      {name === 'Three' ? (
+        <View style={{ flex: 1, backgroundColor: 'blue' }} />
+      ) : null}
+      {name === 'Four' ? (
+        <View style={{ flex: 1, backgroundColor: 'green' }} />
+      ) : null}
+      {name === 'Five' ? (
+        <View style={{ flex: 1, backgroundColor: 'purple' }} />
+      ) : null}
     </SafeAreaView>
   );
 
@@ -55,11 +64,19 @@ const TabsWithNavigationFocus = TabNavigator(
         'numeric-3-box'
       ),
     },
+    Four: {
+      screen: createTabScreen('Four', 'numeric-4-box-outline', 'numeric-4-box'),
+    },
+    Five: {
+      screen: createTabScreen('Five', 'numeric-5-box-outline', 'numeric-5-box'),
+    },
   },
   {
     tabBarPosition: 'bottom',
     animationEnabled: true,
-    swipeEnabled: true,
+    swipeEnabled: false,
+    lazy: false,
+    lazyLoadOnSwipe: false,
   }
 );
 

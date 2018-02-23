@@ -86,14 +86,14 @@ export default class TabBarTop extends React.PureComponent {
   };
 
   _handleOnPress = scene => {
-    const { getOnPress, jumpToIndex, navigation } = this.props;
+    const { getOnPress, jumpTo, navigation } = this.props;
     const previousScene = navigation.state.routes[navigation.state.index];
     const onPress = getOnPress(previousScene, scene);
 
     if (onPress) {
-      onPress({ previousScene, scene, jumpToIndex });
+      onPress({ previousScene, scene, jumpToIndex: jumpTo });
     } else {
-      jumpToIndex(scene.index);
+      jumpTo(scene.route.key);
     }
   };
 
@@ -105,7 +105,7 @@ export default class TabBarTop extends React.PureComponent {
       <TabBar
         {...props}
         onTabPress={this._handleOnPress}
-        jumpToIndex={() => {}}
+        jumpTo={() => {}}
         renderIcon={this._renderIcon}
         renderLabel={this._renderLabel}
       />

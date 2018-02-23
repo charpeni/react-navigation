@@ -180,7 +180,7 @@ class TabBarBottom extends React.PureComponent {
     const {
       position,
       navigation,
-      jumpToIndex,
+      jumpTo,
       getOnPress,
       getTestIDProps,
       activeBackgroundColor,
@@ -235,8 +235,8 @@ class TabBarBottom extends React.PureComponent {
                 accessibilityLabel={accessibilityLabel}
                 onPress={() =>
                   onPress
-                    ? onPress({ previousScene, scene, jumpToIndex })
-                    : jumpToIndex(index)
+                    ? onPress({ previousScene, scene, jumpToIndex: jumpTo })
+                    : jumpTo(route.key)
                 }
               >
                 <Animated.View style={[styles.tab, { backgroundColor }]}>

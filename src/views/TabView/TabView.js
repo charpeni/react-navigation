@@ -5,6 +5,7 @@ import SafeAreaView from 'react-native-safe-area-view';
 
 import ResourceSavingSceneView from '../ResourceSavingSceneView';
 import withCachedChildNavigation from '../../withCachedChildNavigation';
+import NavigationActions from '../../NavigationActions';
 
 class TabView extends React.PureComponent {
   static defaultProps = {
@@ -31,8 +32,10 @@ class TabView extends React.PureComponent {
     return (
       <ResourceSavingSceneView
         lazy={this.props.lazy}
+        lazyLoadOnSwipe={this.props.lazyLoadOnSwipe}
         removeClippedSubViews={this.props.removeClippedSubviews}
         animationEnabled={this.props.animationEnabled}
+        alwaysVisible={this.props.alwaysVisible}
         swipeEnabled={this.props.swipeEnabled}
         screenProps={screenProps}
         component={TabComponent}
@@ -183,6 +186,18 @@ class TabView extends React.PureComponent {
       navigationState: this.props.navigation.state,
       screenProps: this.props.screenProps,
       style: styles.container,
+      onSwipeStart: () => {
+        console.log('onSwipeStart');
+
+        const { state, dispatch } = this.props.navigation;
+        dispatch(NavigationActions.swipeStart({ index: state.index }));
+      },
+      onSwipeEnd: () => {
+        console.log('onSwipeEnd');
+
+        const { state, dispatch } = this.props.navigation;
+        dispatch(NavigationActions.swipeEnd({ index: state.index }));
+      },
     };
 
     return <TabViewAnimated {...props} />;
