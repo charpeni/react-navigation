@@ -20,9 +20,11 @@ const TabNavigator = (routeConfigs, config = {}) => {
     tabBarPosition,
     tabBarOptions,
     lazy,
+    lazyLoadOnSwipe,
     removeClippedSubviews,
     swipeEnabled,
     animationEnabled,
+    alwaysVisible,
     configureTransition,
     initialLayout,
     ...tabsConfig
@@ -34,12 +36,14 @@ const TabNavigator = (routeConfigs, config = {}) => {
     <TabView
       {...props}
       lazy={lazy}
+      lazyLoadOnSwipe={lazyLoadOnSwipe}
       removeClippedSubviews={removeClippedSubviews}
       tabBarComponent={tabBarComponent}
       tabBarPosition={tabBarPosition}
       tabBarOptions={tabBarOptions}
       swipeEnabled={swipeEnabled}
       animationEnabled={animationEnabled}
+      alwaysVisible={alwaysVisible}
       configureTransition={configureTransition}
       initialLayout={initialLayout}
     />
@@ -55,6 +59,8 @@ const Presets = {
     swipeEnabled: false,
     animationEnabled: false,
     initialLayout: undefined,
+    alwaysVisible: false,
+    lazyLoadOnSwipe: true,
   },
   AndroidTopTabs: {
     tabBarComponent: TabBarTop,
@@ -62,6 +68,8 @@ const Presets = {
     swipeEnabled: true,
     animationEnabled: true,
     initialLayout: undefined,
+    alwaysVisible: false,
+    lazyLoadOnSwipe: true,
   },
 };
 

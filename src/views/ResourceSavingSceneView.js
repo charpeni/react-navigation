@@ -53,36 +53,57 @@ export default class ResourceSavingSceneView extends React.PureComponent {
             : !visible && removeClippedSubviews
         }
       >
-        <View
-          style={
-            this._mustAlwaysBeVisible() || visible
-              ? styles.innerAttached
-              : styles.innerDetached
-          }
-        >
+        <View style={visible ? styles.innerAttached : styles.innerDetached}>
           {awake ? <SceneView {...rest} navigation={childNavigation} /> : null}
         </View>
       </View>
     );
   }
 
-  _mustAlwaysBeVisible = () => {
-    return this.props.swipeEnabled;
+  _mustBeVisible = payload => {
+    if (this.state.awake && this.props.alwaysVisible) {
+      return true;
+    }
+
+    const { routes, index } = payload.state;
+    const currentKey = this.props.childNavigation.state.key;
+    const currentIndex = routes.findIndex(route => route.key === currentKey);
+
+    // Set sibling scenes visible on swipe start
+    if (
+      payload.action.type === NavigationActions.SWIPE_START &&
+      (this.props.lazyLoadOnSwipe || this.state.awake)
+    ) {
+      const isSibling =
+        currentIndex === index - 1 || currentIndex === index + 1;
+
+      if (isSibling) {
+        return true;
+      }
+    }
+
+    // Keep visible the scene which triggered the navigation to preserve the animation except on transition completed
+    if (
+      this.props.animationEnabled &&
+      currentIndex === payload.lastState.index
+    ) {
+      return true;
+    }
+
+    return routes[index].key === currentKey;
   };
 
   _onAction = payload => {
-    // We do not care about transition complete events, they won't actually change the state
+    // We do not care about transition complete events if swipe is disabled, they won't actually change the state
     if (
-      payload.action.type == NavigationActions.COMPLETE_TRANSITION ||
+      (!this.props.swipeEnabled &&
+        payload.action.type === NavigationActions.COMPLETE_TRANSITION) ||
       !payload.state
     ) {
       return;
     }
 
-    const { routes, index } = payload.state;
-    const key = this.props.childNavigation.state.key;
-
-    if (routes[index].key === key) {
+    if (this._mustBeVisible(payload)) {
       if (!this.state.visible) {
         let nextState = { visible: true };
         if (!this.state.awake) {
