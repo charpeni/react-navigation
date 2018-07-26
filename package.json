@@ -38,7 +38,7 @@
     "react-native-safe-area-view": "^0.8.0",
     "react-navigation-deprecated-tab-navigator": "1.3.0",
     "react-navigation-drawer": "0.4.3",
-    "react-navigation-tabs": "0.5.1"
+    "react-navigation-tabs": "react-navigation/react-navigation-tabs#a4ea2bcce0f50905258eccb582cd2472175cb9ab"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
